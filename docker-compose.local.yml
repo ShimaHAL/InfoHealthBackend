@@ -4,7 +4,7 @@ services:
   db:
     image: postgres:14
     ports:
-      - "15432:5432"
+      - "5432:5432"
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
@@ -15,7 +15,6 @@ services:
 
   backend:
     build: .
-    command: python3 /code/manage.py runserver 0.0.0.0:8000
     container_name: "infohealth-backend"
     env_file:
       - ./InfoHealth/.env
@@ -23,8 +22,15 @@ services:
       - ./InfoHealth:/code
     ports:
       - "8000:8000"
-    depends_on:
+    links:
       - db
+    entrypoint:
+      - dockerize
+      - -timeout
+      - 60s
+      - -wait
+      - tcp://db:5432
+    command: python3 /code/manage.py runserver 0.0.0.0:8000
 
 volumes:
   infohealth-db:

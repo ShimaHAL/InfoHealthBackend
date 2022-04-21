@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:14
+    ports:
+      - "15432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    container_name: "infohealth-db"
+    volumes:
+      - infohealth-db:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    command: python3 /code/manage.py runserver 0.0.0.0:8000
+    container_name: "infohealth-backend"
+    env_file:
+      - ./InfoHealth/.env
+    volumes:
+      - ./InfoHealth:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+volumes:
+  infohealth-db:

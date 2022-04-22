@@ -41,7 +41,8 @@ def comment_url(request):
 @require_POST
 @csrf_exempt
 def post_url(request):
-    url = request.POST["url"]
+    url = request.POST.get("url")
+    print(url)
     context={"message": "POST request received", "url": url}
     return JsonResponse(context)
 

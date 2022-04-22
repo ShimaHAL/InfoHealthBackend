@@ -19,8 +19,10 @@ from django.urls import path
 from mysite import views
 
 urlpatterns = [
-    #path('admin', admin.site.urls),
+    path('admin', admin.site.urls),
     path('', views.api_test),
-    path('post_url', views.post_url),
+    path('post_url/', views.post_url),
+    path("comment-url/", views.comment_url),
+    path("collect-comments/", views.collect_comments),
 
 ]

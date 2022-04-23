@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 import requests
 from bs4 import BeautifulSoup
-
+import json
 
 def api_test(request):
 
@@ -37,14 +37,6 @@ def comment_url(request):
     commentURL = "https://news.yahoo.co.jp/comment/plugin/v1/full/?&sort=lost_points&order=desc&page=1&type=1"
     commentURL += "&full_page_url="+full_page_url+"&topic_id="+topic_id+"&space_id="+space_id
     return JsonResponse({"url":commentURL})
-
-@require_POST
-@csrf_exempt
-def post_url(request):
-    url = request.POST.get("url")
-    print(url)
-    context={"message": "POST request received", "url": url}
-    return JsonResponse(context)
 
 @require_POST
 @csrf_exempt

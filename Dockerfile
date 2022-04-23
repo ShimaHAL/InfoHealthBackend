@@ -16,12 +16,12 @@ RUN apt-get update && apt-get install -y wget \
     && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
 ENV PYTHONUNBUFFERED 1
-RUN mkdir /code
-ADD requirements.txt .
 
+COPY requirements.txt .
 RUN pip install --upgrade pip setuptools
 RUN pip install -r requirements.txt
-
 RUN rm requirements.txt
 
+RUN mkdir /code
 WORKDIR /code
+COPY ./InfoHealth .
